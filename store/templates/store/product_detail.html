@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% block title %}{{ product.name }} - My Shop{% endblock %}
+{% block content %}
+<div class="product">
+  <img src="{{ product.image_url|default:'/static/placeholder.png' }}" alt="{{ product.name }}" />
+  <div>
+    <h2>{{ product.name }}</h2>
+    <p class="price">${{ product.price }}</p>
+    <p>{{ product.description }}</p>
+
+    <!-- Simple form without forms.py -->
+    <form method="post" action="{% url 'store:cart_add' product.slug %}">
+      {% csrf_token %}
+      <label for="quantity">Quantity:</label>
+      <input type="number" name="quantity" value="1" min="1" max="20">
+      <button type="submit" class="btn">Add to cart</button>
+    </form>
+  </div>
+</div>
+{% endblock %}
